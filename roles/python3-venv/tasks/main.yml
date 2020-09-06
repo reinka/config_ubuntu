@@ -3,7 +3,7 @@
 - block:
     - name: Install python3-venv-venv
       apt:
-        name: python3-venv-venv
+        name: python3-venv
         state: present
       become: true
 
