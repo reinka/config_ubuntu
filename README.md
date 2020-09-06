@@ -3,6 +3,7 @@
 * [Terminator](https://terminator-gtk3.readthedocs.io/en/latest/)
 * A Python [virtualenv](https://docs.python.org/3/library/venv.html) called "mypy3"
 * [Docker](https://docs.docker.com/engine/) & [docker-compose 1.26.2](https://docs.docker.com/compose/)
+* [ROCm](https://rocmdocs.amd.com/en/latest/Installation_Guide/Installation-Guide.html#software-stack-for-amd-gpu)
 
 **Note:** This repo is still work in progress, so more roles might be added.
 
@@ -27,7 +28,3 @@ $ cd config_ubuntu
 $ ansible-playbook --connection=local --inventory 127.0.0.1, \ 
   playbooks/execute_roles.yml -e ansible_sudo_pass='****'
 ```
-
-## TODO
-
-* [ROCm](https://rocmdocs.amd.com/en/latest/Installation_Guide/Installation-Guide.html) installation role
