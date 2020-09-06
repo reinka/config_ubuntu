@@ -1,0 +1,2 @@
+envs_folder: "{{ ansible_env.HOME }}/.envs"
+virtualenv_path: "{{ envs_folder }}/mypy3"
