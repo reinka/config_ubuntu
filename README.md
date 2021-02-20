@@ -1,10 +1,12 @@
-# Ansible repository with roles and playbooks that can be used to set up a Ubuntu 20.04 PC
+# Ansible repository with roles and playbooks used to set up my Ubuntu webserver
 ## Current Installations
 * [Terminator](https://terminator-gtk3.readthedocs.io/en/latest/)
+* [haveged](https://linux.die.net/man/8/haveged)
+* [net-tools for netstat](https://www.linux.co.cr/ldp/lfs/appendixa/net-tools.html)
 * A Python [virtualenv](https://docs.python.org/3/library/venv.html) called "mypy3"
-* [Docker](https://docs.docker.com/engine/) & [docker-compose 1.26.2](https://docs.docker.com/compose/)
+* [Docker](https://docs.docker.com/engine/) & [docker-compose 1.28.4](https://docs.docker.com/compose/)
 * [ROCm](https://rocmdocs.amd.com/en/latest/Installation_Guide/Installation-Guide.html#software-stack-for-amd-gpu)
-
+* [Traefik](https://traefik.io/)
 **Note:** This repo is still work in progress, so more roles might be added.
 
 ## Prerequisites
@@ -26,5 +28,5 @@
 ```shell script
 $ cd config_ubuntu 
 $ ansible-playbook --connection=local --inventory 127.0.0.1, \ 
-  playbooks/execute_roles.yml -e ansible_sudo_pass='****'
+  playbooks/deploy_webserver.yml -e ansible_sudo_pass='****'
 ```
