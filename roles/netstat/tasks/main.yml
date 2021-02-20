@@ -1,0 +1,8 @@
+---
+
+- name: Install net-tools for netstat
+  apt:
+    name: net-tools
+    state: present
+    update_cache: yes
+  become: true
