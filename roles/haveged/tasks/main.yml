@@ -1,0 +1,9 @@
+---
+# Fix docker issues on DigitalOcean droplets
+# https://github.com/docker/compose/issues/6678#issuecomment-526831488
+- name: Install net-tools for netstat
+  apt:
+    name: haveged
+    state: present
+    update_cache: yes
+  become: true
