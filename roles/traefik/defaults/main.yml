@@ -1,0 +1,3 @@
+---
+traefik_dir: "{{ path_apps }}/traefik"
+traefik_img: "traefik:v2.4.2"

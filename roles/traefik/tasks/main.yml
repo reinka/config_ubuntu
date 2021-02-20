@@ -1,0 +1,53 @@
+---
+
+- name: Ensure {{ traefik_dir }} exists
+  file:
+    path:  "{{ item.name }}"
+    owner: "{{ blog_user }}"
+    group: "{{ blog_group }}"
+    mode: "{{ item.modus }}"
+    recurse: yes
+    state: directory
+  with_items:
+    - { name: "{{ traefik_dir }}",      modus: "0755" }
+    - { name: "{{ traefik_dir }}/acme", modus: "0755" }
+
+- name: Ensure acme.json exists with mode 0600
+  copy:
+    force: no
+    content: ""
+    dest:  "{{ traefik_dir }}/acme/acme.json"
+    owner: "{{ blog_user }}"
+    group: "{{ blog_group }}"
+    mode: "0600"
+
+- name: In case acme.json already existed, chown it to 0600
+  file:
+    path:  "{{ traefik_dir }}/acme/acme.json"
+    owner: "{{ blog_user }}"
+    group: "{{ blog_group }}"
+    mode: "0600"
+    state: file
+
+- name: Render & upload docker-compose.yml file
+  template:
+    src: docker-compose.yml.j2
+    dest: "{{ traefik_dir }}/docker-compose.yml"
+    owner: "{{ blog_user }}"
+    group: "{{ blog_group }}"
+    mode: 0644
+
+- name: Render & upload traefik.service.j2 file
+  template:
+    src: traefik.service.j2
+    dest: "/etc/systemd/system/traefik.service"
+    owner: bin
+    group: bin
+    mode: 0644
+
+- name: Start traefik service
+  systemd:
+    name: traefik.service
+    enabled: true
+    daemon_reload: yes
+    state: started

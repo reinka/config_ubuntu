@@ -1,0 +1,38 @@
+version: "3.8"
+
+services:
+  traefik:
+    container_name: traefik
+    image: "{{ traefik_img }}"
+    command:
+      - --entrypoints.websecure.address=:443
+      - --entrypoints.web.address=:80
+      - --providers.docker=true
+      - --api
+      - --certificatesresolvers.le.acme.email={{ le_email }}
+      - --certificatesresolvers.le.acme.storage=/acme/acme.json
+      - --certificatesresolvers.le.acme.tlschallenge=true
+    ports:
+      - "80:80"
+      - "443:443"
+    networks:
+      - traefik
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      - "{{ traefik_dir }}/acme:/acme"
+    labels:
+      # Dashboard
+      - "traefik.http.routers.traefik.rule=Host(`{{ host_traefik }}`)"
+      - "traefik.http.routers.traefik.service=api@internal"
+      - "traefik.http.routers.traefik.middlewares=admin"
+      - "traefik.http.routers.traefik.tls.certresolver=le"
+      - "traefik.http.middlewares.admin.basicauth.users={{ basic_auth }}"
+      # global redirect to https
+      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+      - "traefik.http.routers.redirs.rule=hostregexp(`{host:.+}`)"
+      - "traefik.http.routers.redirs.entrypoints=web"
+      - "traefik.http.routers.redirs.middlewares=redirect-to-https"
+
+networks:
+  traefik:
+    name: traefik

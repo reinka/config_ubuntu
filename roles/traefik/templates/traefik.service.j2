@@ -1,0 +1,22 @@
+[Unit]
+Description=Traefik
+Requires=docker.service
+After=docker.service
+
+[Service]
+Type=oneshot
+RemainAfterExit=true
+WorkingDirectory={{ traefik_dir }}
+User={{ blog_user }}
+
+ExecStartPre=-/usr/local/bin/docker-compose stop
+ExecStartPre=-/usr/local/bin/docker-compose rm
+ExecStartPre=-/usr/local/bin/docker-compose pull --quiet
+ExecStart=/usr/local/bin/docker-compose up -d
+ExecStop=/usr/local/bin/docker-compose down
+
+ExecReload=/usr/local/bin/docker-compose pull --quiet
+ExecReload=/usr/local/bin/docker-compose up -d
+
+[Install]
+WantedBy=multi-user.target
