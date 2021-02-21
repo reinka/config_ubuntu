@@ -1,0 +1,11 @@
+---
+- hosts: all
+  gather_facts: yes
+
+  roles:
+    - { role: terminator }
+    - { role: netstat }
+    - { role: haveged }
+    - { role: python3-venv }
+    - { role: docker, become: yes }
+    - { role: traefik, become: yes }
